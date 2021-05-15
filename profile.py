@@ -16,9 +16,17 @@ class ApplyJobAndProfileTesting(unittest.TestCase):
         inp.send_keys('IT')
         self.driver.find_element_by_class_name('searchBar__button').click()
         self.driver.find_element_by_class_name('job-item').click()
-        self.driver.find_element_by_link_text('Nộp đơn').click()
-        time.sleep(5)
-        assert True
+        self.driver.switch_to.window(self.driver.window_handles[-1])
+        lstBtn = self.driver.find_elements_by_class_name('btn-apply')
+        for x in lstBtn:
+            try:
+                x.click()
+                break
+            except:
+                pass
+        print(self.driver.title)
+        assert self.driver.title == 'VietnamWorks Account'
+
     def tearDown(self):
         self.driver.close()
 
