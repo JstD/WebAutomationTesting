@@ -10,8 +10,9 @@ from selenium.webdriver.support import expected_conditions as EC
 class SearchBar(unittest.TestCase):
     
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        self.driver = webdriver.Chrome('/home/jstd/Desktop/Source/software_testing/chromedriver')
         self.driver.get("https://www.vietnamworks.com/")
+        self.driver.delete_all_cookies()
 
     ########## Start test #########
     
