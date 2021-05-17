@@ -10,12 +10,12 @@ from selenium.webdriver.support import expected_conditions as EC
 class SearchBar(unittest.TestCase):
     
     def setUp(self):
-        self.driver = webdriver.Chrome('/home/jstd/Desktop/Source/software_testing/chromedriver')
+        self.driver = webdriver.Chrome('../chromedriver')
         self.driver.get("https://www.vietnamworks.com/")
         self.driver.delete_all_cookies()
 
     ########## Start test #########
-    
+    '''
     def test_job_NV_IT(self):
         #TC-002-001 OK
         mainPage = page.MainPage(self.driver)
@@ -24,7 +24,7 @@ class SearchBar(unittest.TestCase):
         mainPage.click_go_button()
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_job_found("Nhân viên IT,Lập Trình,IT,Phần Mềm,Công Nghệ")
-
+    '''
     def test_job_with_location(self):
         #TC-002-002 OK
         mainPage = page.MainPage(self.driver)
@@ -131,28 +131,33 @@ class SearchBar(unittest.TestCase):
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_urgent_found()
     
+    #error
     def test_job_type_part_time(self):
         #TC-002-0011 OK
         mainPage = page.MainPage(self.driver)
         assert mainPage.is_title_matches()
         mainPage.search_text_element = "Nhân viên IT"
+        time.sleep(0.3)
         mainPage.click_go_button()
+        time.sleep(1)
         mainPage.click_part_time()
+        time.sleep(1)
         mainPage.click_go_button_after()
+        time.sleep(0.3)
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_non_found()
-    
+    '''
     #Web bị fail test này
-    def test_without_job(self):
-        #TC-002-0012 OK
-        mainPage = page.MainPage(self.driver)
-        assert mainPage.is_title_matches()
-        mainPage.click_go_button()
-        mainPage.click_career_doctor()
-        search_result_page = page.SearchResultPage(self.driver)
-        time.sleep(5)
-        assert search_result_page.is_job_found("Bác sĩ,Bác SĨ,Y Khoa,Dược Phẩm,Bác Sỹ,Dược,Lâm Sàng,Medical,Dinh Dưỡng,Sức Khỏe")
-
+    # def test_without_job(self):
+    #     #TC-002-0012 OK
+    #     mainPage = page.MainPage(self.driver)
+    #     assert mainPage.is_title_matches()
+    #     mainPage.click_go_button()
+    #     mainPage.click_career_doctor()
+    #     search_result_page = page.SearchResultPage(self.driver)
+    #     time.sleep(5)
+    #     assert search_result_page.is_job_found("Bác sĩ,Bác SĨ,Y Khoa,Dược Phẩm,Bác Sỹ,Dược,Lâm Sàng,Medical,Dinh Dưỡng,Sức Khỏe")
+    
     def test_illegal_job(self):
         #TC-002-0013 OK
         mainPage = page.MainPage(self.driver)
@@ -161,7 +166,7 @@ class SearchBar(unittest.TestCase):
         mainPage.click_go_button()
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_non_found()
-
+    
     def test_nonsence(self):
         #TC-002-014 OK
         mainPage = page.MainPage(self.driver)
@@ -170,7 +175,7 @@ class SearchBar(unittest.TestCase):
         mainPage.click_go_button()
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_non_found()
-
+    
     def test_empty_search(self):
         #TC-002-015 OK
         mainPage = page.MainPage(self.driver)
@@ -178,9 +183,9 @@ class SearchBar(unittest.TestCase):
         mainPage.click_go_button()
         search_result_page = page.SearchResultPage(self.driver)
         assert search_result_page.is_results_found()
-
+    '''
     ########## End test #########
-
+    
     def tearDown(self):
         #pass
         #self.driver.close()

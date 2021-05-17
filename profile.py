@@ -24,7 +24,7 @@ class ApplyJobAndProfileTesting(unittest.TestCase):
         self.username = mydata.username
         self.password = mydata.password
 
-        self.driver = webdriver.Chrome('/home/jstd/Desktop/Source/software_testing/chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.driver.get('https://www.vietnamworks.com/')
         self.driver.set_window_size(1600,1000)
         self.driver.delete_all_cookies()

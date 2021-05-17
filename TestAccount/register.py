@@ -53,7 +53,7 @@ class SigninTesting(unittest.TestCase):
         fill_in_register(self.driver, '', lname, valid_email, valid_pw)
         time.sleep(0.3)
         check_exception(self.driver)
-
+    
     def test_register_empty_lname(self):
         fill_in_register(self.driver, fname, '', valid_email, valid_pw)
         time.sleep(0.3)
@@ -130,6 +130,30 @@ class SigninTesting(unittest.TestCase):
             print(txt)
             assert False
         time.sleep(1)
+    
+    def test_register_emtpy_all(self):
+        fill_in_register(self.driver, '', '',
+                         '', '')
+        time.sleep(0.3)
+        check_exception(self.driver)
+    
+    def test_register_fail_mix_1(self):
+        fill_in_register(self.driver, '', '',
+                         valid_email, valid_pw)
+        time.sleep(0.3)
+        check_exception(self.driver)
+    
+    def test_register_fail_mix_2(self):
+        fill_in_register(self.driver, '', lname,
+                         used_email, valid_pw)
+        time.sleep(0.3)
+        check_exception(self.driver)
+    
+    def test_register_fail_mix_2(self):
+        fill_in_register(self.driver, fname + ".", lname,
+                         used_email, valid_pw)
+        time.sleep(0.3)
+        check_exception(self.driver)
 
     def tearDown(self):
         self.driver.close()
