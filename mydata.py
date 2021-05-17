@@ -19,9 +19,6 @@ password="XM123456"
 #fb ACCOUNT
 fbname="0388287785"
 fbpass="abcdefgh"
-
-
-
 #register fields
 fname = "Nam"
 lname = "Tran"
