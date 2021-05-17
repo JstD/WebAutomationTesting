@@ -3,18 +3,12 @@ from selenium import webdriver
 
 import time
 from functools import reduce
-'''The package below include VNworks account form:
-    username = ...
-    password = ...
-'''
 from mydata import *
-# from selenium.webdriver.common.by import By
-
 """
 This test use normal login case.
 Please change self.driver path for the successful runtime.
 """
-
+from login import handle
 def fill_in_register(driver, fname, lname, email, pw):
     driver.find_element_by_id("firstname").send_keys(fname)
     driver.find_element_by_id("lastname").send_keys(lname)
@@ -22,23 +16,9 @@ def fill_in_register(driver, fname, lname, email, pw):
     driver.find_element_by_id("password").send_keys(pw)
 
 def check_exception(driver):
-    btnLogin = driver.find_element_by_id("button-register").submit()
+    driver.find_element_by_id("button-register").submit()
     time.sleep(0.3)
-    try:
-        if driver.title == "VietnamWorks Account":
-            raise Exception()
-        driver.find_element_by_css_selector(
-            "div.wrapper-user-btn").click()
-        user = driver.find_element_by_class_name("username")
-    except:
-        print(driver.title)
-        feedback = driver.find_elements_by_class_name(
-            "invalid-feedback")
-        print(list(reduce(lambda x, y: x+[y.text], feedback, [])))
-        assert True
-    else:
-        assert False
-    time.sleep(0.3)
+    handle(driver)
 
 class SigninTesting(unittest.TestCase):
     def setUp(self):
@@ -51,65 +31,65 @@ class SigninTesting(unittest.TestCase):
     
     def test_register_empty_fname(self):
         fill_in_register(self.driver, '', lname, valid_email, valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
     
     def test_register_empty_lname(self):
         fill_in_register(self.driver, fname, '', valid_email, valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_empty_email(self):
         fill_in_register(self.driver, fname, lname, '', valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_empty_password(self):
         fill_in_register(self.driver, fname, lname, valid_email, '')
-        time.sleep(0.3)
+
         check_exception(self.driver)
     
     def test_register_invalid_name(self):
         fill_in_register(self.driver, fname+'@', lname+'2', valid_email, valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
     
     def test_register_invalid_email(self):
         fill_in_register(self.driver,fname, lname, invalid_email, valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_used_email(self):
         fill_in_register(self.driver, fname, lname, used_email, valid_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_nonUpper_password(self):
         fill_in_register(self.driver, fname, lname, valid_email, nonUpper_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_nonNumber_password(self):
         fill_in_register(self.driver, fname, lname, valid_email, nonNumber_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_lessMinLength_password(self):
         fill_in_register(self.driver, fname, lname,
                          valid_email, lessMinLength_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_moreMaxLength_password(self):
         fill_in_register(self.driver, fname, lname,
                          valid_email, moreMaxLength_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
 
     def test_register_moreMaxLength_password(self):
         fill_in_register(self.driver, fname, lname,
                          valid_email, moreMaxLength_pw)
-        time.sleep(0.3)
+
         check_exception(self.driver)
     
     def test_register_successful(self):
@@ -118,47 +98,39 @@ class SigninTesting(unittest.TestCase):
         btnLogin = self.driver.find_element_by_id("button-register").submit()
         time.sleep(0.3)
         try:
-            feedback = self.driver.find_elements_by_class_name(
-                "invalid-feedback")
+            feedback = self.driver.find_elements_by_class_name("invalid-feedback") 
             txt = list(reduce(lambda x, y: x+[y.text], feedback, []))
-            if not txt:
+            if txt:
                 raise Exception()
         except:
+            assert False
+        else:
             print("Email " + self.driver.find_element_by_css_selector('strong').text)
             assert True
-        else:
-            print(txt)
-            assert False
-        time.sleep(1)
+        time.sleep(0.5)
     
     def test_register_emtpy_all(self):
-        fill_in_register(self.driver, '', '',
-                         '', '')
-        time.sleep(0.3)
+        fill_in_register(self.driver, '', '', '', '')
+
         check_exception(self.driver)
     
     def test_register_fail_mix_1(self):
-        fill_in_register(self.driver, '', '',
-                         valid_email, valid_pw)
-        time.sleep(0.3)
+        fill_in_register(self.driver, '', '', valid_email, valid_pw)
+
         check_exception(self.driver)
     
     def test_register_fail_mix_2(self):
-        fill_in_register(self.driver, '', lname,
-                         used_email, valid_pw)
-        time.sleep(0.3)
+        fill_in_register(self.driver, '', lname, used_email, valid_pw)
+
         check_exception(self.driver)
     
     def test_register_fail_mix_2(self):
-        fill_in_register(self.driver, fname + ".", lname,
-                         used_email, valid_pw)
-        time.sleep(0.3)
+        fill_in_register(self.driver, fname + ".", lname, used_email, valid_pw)
+
         check_exception(self.driver)
 
     def tearDown(self):
         self.driver.close()
-
-
 
 if __name__ == '__main__':
     unittest.main()

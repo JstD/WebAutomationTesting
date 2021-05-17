@@ -14,43 +14,30 @@ from mydata import *
 """
 This test use normal login case.
 Please change self.driver path for the successful runtime.
-"""
+""" 
+def handle(driver):
+    try:
+        feedback = driver.find_elements_by_class_name("invalid-feedback")
+        txt = list(reduce(lambda x, y: x+[y.text], feedback, []))
+        if not txt:
+            raise Exception()
+    except:
+        assert False
+    else:
+        print(txt)
+        assert True
+    time.sleep(0.3)
+
 def check_exception(driver):
     driver.find_element_by_id("button-login").submit()
     time.sleep(0.3)
-    try:
-        if driver.title == "VietnamWorks Account":
-            raise Exception()
-        driver.find_element_by_css_selector(
-            "div.wrapper-user-btn").click()
-        user = driver.find_element_by_class_name("username")
-    except:
-        print(driver.title)
-        feedback = driver.find_elements_by_class_name(
-            "invalid-feedback")
-        print(list(reduce(lambda x, y: x+[y.text], feedback, [])))
-        assert True
-    else:
-        print(self.driver.title)
-        print("Username " + user.text)
-        assert False
+    handle(driver)
+        
 
 def check_exception_forgot(driver):
-    time.sleep(0.3)
     driver.find_element_by_id("button-reset").submit()
     time.sleep(0.3)
-    try:
-        feedback = driver.find_elements_by_class_name(
-            "invalid-feedback")
-        txt = list(reduce(lambda x, y: x+[y.text], feedback, []))
-        if txt:
-            raise Exception()
-    except:
-        print(txt)
-        assert True
-    else:
-        assert False
-    time.sleep(0.3)
+    handle(driver)
     
 
 class LoginTesting(unittest.TestCase):
@@ -138,16 +125,14 @@ class LoginTesting(unittest.TestCase):
             assert True
 
     def test_forgot_password_with_random_valid_email(self):
-        forgot = self.driver.find_element_by_css_selector(
-            "a.inline.m-t-sm.forgot-password__text.clickable").click()
+        forgot = self.driver.find_element_by_css_selector("a.inline.m-t-sm.forgot-password__text.clickable").click()
         time.sleep(0.3)
         self.driver.find_element_by_id(
             "username").send_keys(valid_email)  # random valid email
         check_exception_forgot(self.driver)
     
     def test_forgot_password_with_invalid_email(self):
-        fforgot = self.driver.find_element_by_css_selector(
-            "a.inline.m-t-sm.forgot-password__text.clickable").click()
+        fforgot = self.driver.find_element_by_css_selector("a.inline.m-t-sm.forgot-password__text.clickable").click()
         time.sleep(0.3)
         self.driver.find_element_by_id(
             "username").send_keys(invalid_email)  # invalid_email
@@ -156,7 +141,7 @@ class LoginTesting(unittest.TestCase):
     def tearDown(self):
         self.driver.close()
 
-class TestLoginWithSocial(unittest.TestCase):
+class TestLoginWithFb(unittest.TestCase):
     def setUp(self):
         self.username = username
         self.password = password
@@ -164,9 +149,10 @@ class TestLoginWithSocial(unittest.TestCase):
         self.driver.get('https://www.vietnamworks.com/')
         self.driver.find_element_by_css_selector(
             "div.wrapper-user-btn").click()
+        self.driver.find_element_by_css_selector(
+            "a.social-login-facebook").click()
 
     def test_login_fb(self):
-        self.driver.find_element_by_css_selector("a.social-login-facebook").click()
         self.driver.find_element_by_name("email").send_keys(fbname)
         self.driver.find_element_by_name("pass").send_keys(fbpass)
         
