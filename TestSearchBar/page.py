@@ -126,14 +126,14 @@ class SearchResultPage(BasePage):
         check = False
         for ele in elements:
             check = False
-            #job = ele.find_element(*MainPageLocaters.JOB_TITLE)
-            #print(job.text)
+            # job = ele.find_element(*MainPageLocaters.JOB_TITLE)
+            # print(job.text)
             for word in value.split(","):
                 if word in ele.get_attribute('innerHTML'):
                     check = True
                     break
             if check == False:
-                 return check
+                return check
         return check
 
     def is_welfare_found(self,value):
@@ -168,6 +168,7 @@ class SearchResultPage(BasePage):
 
     def is_job_position(self,value):
         position = self.driver.find_element(*MainPageLocaters.POSITION_ACTIVE)
+        print(position.text)
         if position.text == value:
             return True
         else:

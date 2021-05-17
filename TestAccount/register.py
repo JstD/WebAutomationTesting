@@ -22,7 +22,7 @@ def check_exception(driver):
 
 class SigninTesting(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome('./chromedriver.exe')
+        self.driver = webdriver.Chrome('/home/jstd/Desktop/Source/software_testing/chromedriver')
         self.driver.get('https://www.vietnamworks.com/')
         self.driver.find_element_by_css_selector(
             "div.wrapper-user-btn").click()
