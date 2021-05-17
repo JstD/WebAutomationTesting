@@ -1,8 +1,5 @@
 import unittest
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.chrome.options import Options
-
 import time
 import random
 
@@ -11,7 +8,6 @@ import random
     password = ...
 '''
 import mydata
-# from selenium.webdriver.common.by import By
 
 
 
@@ -24,7 +20,7 @@ class ApplyJobAndProfileTesting(unittest.TestCase):
         self.username = mydata.username
         self.password = mydata.password
 
-        self.driver = webdriver.Chrome('/home/jstd/Desktop/Source/software_testing/chromedriver')
+        self.driver = webdriver.Chrome('./chromedriver')
         self.driver.get('https://www.vietnamworks.com/')
         self.driver.set_window_size(1600,1000)
         self.driver.delete_all_cookies()
@@ -68,7 +64,6 @@ class ApplyJobAndProfileTesting(unittest.TestCase):
         self.driver.find_element_by_id('email').send_keys(self.username)
         self.driver.find_element_by_id('login__password').send_keys(self.password)
         self.driver.find_element_by_id('button-login').click()
-
 
         inp = self.driver.find_element_by_id('search-bar-input')
         inp.send_keys('IT')
